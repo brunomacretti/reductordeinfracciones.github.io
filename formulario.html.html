@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>REDUCTOR DE INFRACCIONES</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a; /* Fondo oscuro azulado */
+            color: #FFFFF0; /* Texto claro (amarillo pastel) */
+            text-align: center;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column; /* Cambio a columna para el orden deseado */
+            align-items: center; /* Centra el contenido verticalmente */
+        }
+        h2 {
+            font-size: 32px;
+            color: #FFFF00; /* Cambio de naranja a amarillo flúo */
+            width: 100%;
+            text-align: center;
+        }
+        h3 {
+            font-size: 20px;
+            color: #FFFFF0; /* Texto claro (amarillo pastel) */
+            text-align: center;
+        }
+        .form {
+            width: 45%; /* Divide el espacio en dos columnas */
+            padding: 20px;
+            background-color: #333; /* Fondo oscuro */
+            border-radius: 4px;
+            margin: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3); /* Sombra para efecto minimalista */
+        }
+        .input-container {
+            display: flex;
+            flex-direction: column; /* Cambio a columna para el orden deseado */
+            align-items: center; /* Centra el contenido verticalmente */
+            margin-bottom: 10px;
+        }
+        .label {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        .input {
+            width: 65%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            text-transform: uppercase; /* Convierte el texto a mayúsculas automáticamente */
+        }
+        .result {
+            font-size: 20px;
+            font-weight: bold;
+            color: #FFFFF0; /* Texto claro (amarillo pastel) */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>REDUCTOR DE INFRACCIONES</h2>
+        <h3>Dominio: <input class="input" type="text" maxlength="7" onkeyup="this.value = this.value.toUpperCase();"></h3>
+        
+        <div class="form">
+            <h3>Infracciones CABA</h3>
+            <div class="input-container">
+                <span class="label">Actas:</span>
+                <input class="input" type="number" max="99">
+            </div>
+            <div class="input-container">
+                <span class="label">Total:</span>
+                <input class="input" type="number" max="99999999999" oninput="calculate(this.value, 'cabaResult', 60, 10)">
+            </div>
+            <div class="input-container">
+                <span class="label">Regulador:</span>
+                <select class="input">
+                    <option value="Seleccionar">Seleccionar</option>
+                    <option value="JP">JP</option>
+                    <option value="Mariano">Mariano</option>
+                </select>
+            </div>
+            <div class="result" id="cabaResult">
+                DESCUENTO: $0<br>
+                PROFIT: $0
+            </div>
+        </div>
+
+        <div class="form">
+            <h3>Infracciones PBA</h3>
+            <div class="input-container">
+                <span class="label">Actas:</span>
+                <input class="input" type="number" max="99">
+            </div>
+            <div class="input-container">
+                <span class="label">Total:</span>
+                <input class="input" type="number" max="99999999999" oninput="calculate(this.value, 'pbaResult', 50, 10)">
+            </div>
+            <div class="input-container">
+                <span class="label">Regulador:</span>
+                <select class="input">
+                    <option value="Seleccionar">Seleccionar</option>
+                    <option value="Damian">Damian</option>
+                    <option value="Mariano">Mariano</option>
+                </select>
+            </div>
+            <div class="result" id="pbaResult">
+                DESCUENTO: $0<br>
+                PROFIT: $0
+            </div>
+        </div>
+
+        <div class="form">
+            <h3>AGIP</h3>
+            <div class="input-container">
+                <span class="label">Actas:</span>
+                <input class="input" type="number" max="99">
+            </div>
+            <div class="input-container">
+                <span class="label">Total:</span>
+                <input class="input" type="number" max="99999999999" oninput="calculate(this.value, 'agipResult', 45, 5)">
+            </div>
+            <div class="input-container">
+                <span class="label">Regulador:</span>
+                <select class="input">
+                    <option value="Seleccionar">Seleccionar</option>
+                    <option value="Damian">Damian</option>
+                    <option value="Mariano">Mariano</option>
+                </select>
+            </div>
+            <div class="result" id="agipResult">
+                DESCUENTO: $0<br>
+                PROFIT: $0
+            </div>
+        </div>
+
+        <div class="form">
+            <h3>ARBA</h3>
+            <div class="input-container">
+                <span class="label">Actas:</span>
+                <input class="input" type="number" max="99">
+            </div>
+            <div class="input-container">
+                <span class="label">Total:</span>
+                <input class="input" type="number" max="99999999999" oninput="calculate(this.value, 'arbaResult', 30, 5)">
+            </div>
+            <div class="input-container">
+                <span class="label">Regulador:</span>
+                <select class="input">
+                    <option value="Seleccionar">Seleccionar</option>
+                    <option value="Mariano">Mariano</option>
+                </select>
+            </div>
+            <div class="result" id="arbaResult">
+                DESCUENTO: $0<br>
+                PROFIT: $0
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function calculate(value, resultId, discountPercent, profitPercent) {
+            // Calcula los valores de DESCUENTO y PROFIT
+            const discount = (parseInt(value) * (discountPercent / 100)).toFixed(0);
+            const profit = (parseInt(value) * (profitPercent / 100)).toFixed(0);
+
+            // Actualiza los resultados en el formulario específico
+            document.getElementById(resultId).innerHTML = `DESCUENTO: $${discount}<br>PROFIT: $${profit}`;
+        }
+    </script>
+</body>
+</html>
